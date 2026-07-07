@@ -1,0 +1,23 @@
+services:
+  postgres-auth:
+    image: postgres:17
+    container_name: postgres-auth
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: docker/auth/Dockerfile
+    container_name: auth-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres-auth
+
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
