@@ -3,7 +3,10 @@ package com.example.socialnetwork.auth.entity;
 import com.example.socialnetwork.auth.entity.enums.AccountStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -13,7 +16,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Credential extends BaseAuditableEntity {
+public class Credential {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
   @Column(name = "public_id", nullable = false, unique = true)
   private UUID publicId;
 
@@ -26,4 +33,12 @@ public class Credential extends BaseAuditableEntity {
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   private AccountStatus status;
+
+  @CreationTimestamp
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private Instant createdAt;
+
+  @UpdateTimestamp
+  @Column(name = "updated_at", nullable = false)
+  private Instant updatedAt;
 }

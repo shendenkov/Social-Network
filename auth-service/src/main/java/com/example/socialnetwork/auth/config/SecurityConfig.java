@@ -19,7 +19,11 @@ public class SecurityConfig {
       )
       .authorizeHttpRequests(auth ->
         auth
-          .requestMatchers("/health").permitAll()
+          .requestMatchers(
+            "/actuator/health",
+            "/actuator/info",
+            "/api/v1/auth/register"
+          ).permitAll()
           .anyRequest().authenticated()
       );
     return http.build();
