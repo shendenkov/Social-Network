@@ -30,6 +30,11 @@ management:
     tags:
       application: ${spring.application.name}
 
+jwt:
+  secret:
+  access-token-expiration:
+  refresh-token-expiration:
+
 logging:
   level:
     org.springframework.security: INFO
