@@ -1,0 +1,16 @@
+.idea/
+*.iws
+*.iml
+*.ipr
+
+common/target/
+gateway/target/
+auth-service/target/
+user-service/target/
+social-service/target/
+feed-service/target/
+notification-service/target/
+
+.env.local
+.env.dev
+.env.prod

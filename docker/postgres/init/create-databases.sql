@@ -1,0 +1,5 @@
+CREATE DATABASE auth_db;
+CREATE DATABASE user_db;
+CREATE DATABASE social_db;
+CREATE DATABASE feed_db;
+CREATE DATABASE notification_db;
