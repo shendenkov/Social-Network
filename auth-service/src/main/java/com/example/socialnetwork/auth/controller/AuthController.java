@@ -1,6 +1,8 @@
 package com.example.socialnetwork.auth.controller;
 
+import com.example.socialnetwork.auth.dto.request.LoginRequest;
 import com.example.socialnetwork.auth.dto.request.RegisterRequest;
+import com.example.socialnetwork.auth.dto.response.LoginResponse;
 import com.example.socialnetwork.auth.dto.response.RegisterResponse;
 import com.example.socialnetwork.auth.service.AuthService;
 import jakarta.validation.Valid;
@@ -18,5 +20,11 @@ public class AuthController {
   @ResponseStatus(HttpStatus.CREATED)
   public RegisterResponse register(@Valid @RequestBody RegisterRequest request) {
     return authService.register(request);
+  }
+
+  @PostMapping("/login")
+  @ResponseStatus(HttpStatus.OK)
+  public LoginResponse login(@Valid @RequestBody LoginRequest request) {
+    return authService.login(request);
   }
 }

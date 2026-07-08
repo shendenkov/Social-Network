@@ -20,7 +20,6 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
-
   private final JwtProperties properties;
 
   @Override

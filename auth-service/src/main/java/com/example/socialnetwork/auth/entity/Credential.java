@@ -21,6 +21,14 @@ public class Credential {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @CreationTimestamp
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private Instant createdAt;
+
+  @UpdateTimestamp
+  @Column(name = "updated_at", nullable = false)
+  private Instant updatedAt;
+
   @Column(name = "public_id", nullable = false, unique = true)
   private UUID publicId;
 
@@ -33,12 +41,4 @@ public class Credential {
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   private AccountStatus status;
-
-  @CreationTimestamp
-  @Column(name = "created_at", nullable = false, updatable = false)
-  private Instant createdAt;
-
-  @UpdateTimestamp
-  @Column(name = "updated_at", nullable = false)
-  private Instant updatedAt;
 }

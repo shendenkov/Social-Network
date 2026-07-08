@@ -18,20 +18,23 @@ public class RefreshToken {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @CreationTimestamp
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private Instant createdAt;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "credential_id", nullable = false)
   private Credential credential;
 
-  @Column(nullable = false, unique = true, length = 512)
-  private String token;
+  @Column(name = "token_hash", nullable = false, unique = true, length = 64)
+  private String tokenHash;
+
+  @Column(name = "used_at")
+  private Instant usedAt;
 
   @Column(nullable = false)
   private Instant expiresAt;
 
   @Column(nullable = false)
   private boolean revoked;
-
-  @CreationTimestamp
-  @Column(name = "created_at", nullable = false, updatable = false)
-  private Instant createdAt;
 }
