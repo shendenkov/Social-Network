@@ -1,6 +1,7 @@
 package com.example.socialnetwork.auth.service.impl;
 
 import com.example.socialnetwork.auth.dto.request.LoginRequest;
+import com.example.socialnetwork.auth.dto.request.LogoutRequest;
 import com.example.socialnetwork.auth.dto.request.RefreshRequest;
 import com.example.socialnetwork.auth.dto.request.RegisterRequest;
 import com.example.socialnetwork.auth.dto.response.LoginResponse;
@@ -121,5 +122,14 @@ public class AuthServiceImpl implements AuthService {
       newRefreshToken,
       jwtProperties.accessTokenExpiration()
     );
+  }
+
+  @Override
+  public void logout(LogoutRequest request) {
+    RefreshToken refreshToken =
+      refreshTokenService.findByToken(request.refreshToken())
+        .orElseThrow(InvalidRefreshTokenException::new);
+
+    refreshTokenService.revoke(refreshToken);
   }
 }

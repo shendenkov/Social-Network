@@ -1,6 +1,7 @@
 package com.example.socialnetwork.auth.controller;
 
 import com.example.socialnetwork.auth.dto.request.LoginRequest;
+import com.example.socialnetwork.auth.dto.request.LogoutRequest;
 import com.example.socialnetwork.auth.dto.request.RefreshRequest;
 import com.example.socialnetwork.auth.dto.request.RegisterRequest;
 import com.example.socialnetwork.auth.dto.response.LoginResponse;
@@ -31,7 +32,14 @@ public class AuthController {
   }
 
   @PostMapping("/refresh")
+  @ResponseStatus(HttpStatus.OK)
   public RefreshResponse refresh(@Valid @RequestBody RefreshRequest request) {
     return authService.refresh(request);
+  }
+
+  @PostMapping("/logout")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void logout(@Valid @RequestBody LogoutRequest request) {
+    authService.logout(request);
   }
 }

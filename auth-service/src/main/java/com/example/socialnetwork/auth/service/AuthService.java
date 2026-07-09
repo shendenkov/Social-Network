@@ -1,6 +1,7 @@
 package com.example.socialnetwork.auth.service;
 
 import com.example.socialnetwork.auth.dto.request.LoginRequest;
+import com.example.socialnetwork.auth.dto.request.LogoutRequest;
 import com.example.socialnetwork.auth.dto.request.RefreshRequest;
 import com.example.socialnetwork.auth.dto.request.RegisterRequest;
 import com.example.socialnetwork.auth.dto.response.LoginResponse;
@@ -11,4 +12,5 @@ public interface AuthService {
   RegisterResponse register(RegisterRequest request);
   LoginResponse login(LoginRequest request);
   RefreshResponse refresh(RefreshRequest request);
+  void logout(LogoutRequest request);
 }
