@@ -1,6 +1,6 @@
 package com.example.socialnetwork.auth.integration;
 
-import com.example.socialnetwork.auth.security.jwt.JwtProperties;
+import com.example.socialnetwork.auth.security.JwtProperties;
 import com.example.socialnetwork.auth.repository.CredentialRepository;
 import com.example.socialnetwork.auth.repository.RefreshTokenRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;

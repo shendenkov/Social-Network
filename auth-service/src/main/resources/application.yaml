@@ -17,6 +17,11 @@ spring:
         format_sql: true
   flyway:
     enabled: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 management:
   endpoints:
@@ -34,6 +39,9 @@ jwt:
   secret:
   access-token-expiration:
   refresh-token-expiration:
+
+outbox:
+  publish-delay: 1000
 
 logging:
   level:

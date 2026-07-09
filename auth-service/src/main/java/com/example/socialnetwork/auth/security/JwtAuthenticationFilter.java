@@ -1,7 +1,5 @@
 package com.example.socialnetwork.auth.security;
 
-import com.example.socialnetwork.auth.security.jwt.JwtPrincipal;
-import com.example.socialnetwork.auth.security.jwt.JwtTokenType;
 import com.example.socialnetwork.auth.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

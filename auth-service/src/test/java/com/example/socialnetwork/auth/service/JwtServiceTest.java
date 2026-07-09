@@ -1,8 +1,8 @@
 package com.example.socialnetwork.auth.service;
 
-import com.example.socialnetwork.auth.security.jwt.JwtPrincipal;
-import com.example.socialnetwork.auth.security.jwt.JwtProperties;
-import com.example.socialnetwork.auth.security.jwt.JwtTokenType;
+import com.example.socialnetwork.auth.security.JwtPrincipal;
+import com.example.socialnetwork.auth.security.JwtProperties;
+import com.example.socialnetwork.auth.security.JwtTokenType;
 import com.example.socialnetwork.auth.service.impl.JwtServiceImpl;
 import org.junit.jupiter.api.Test;
 

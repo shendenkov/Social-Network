@@ -8,6 +8,8 @@ spring:
       ddl-auto: validate
   flyway:
     enabled: true
+  kafka:
+    bootstrap-servers: kafka:9092
 
 jwt:
   secret: ${JWT_SECRET}

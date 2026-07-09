@@ -2,7 +2,7 @@ package com.example.socialnetwork.auth.service.impl;
 
 import com.example.socialnetwork.auth.entity.Credential;
 import com.example.socialnetwork.auth.entity.RefreshToken;
-import com.example.socialnetwork.auth.security.jwt.JwtProperties;
+import com.example.socialnetwork.auth.security.JwtProperties;
 import com.example.socialnetwork.auth.repository.RefreshTokenRepository;
 import com.example.socialnetwork.auth.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;

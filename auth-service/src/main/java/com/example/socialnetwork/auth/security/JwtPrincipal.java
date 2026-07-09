@@ -1,4 +1,4 @@
-package com.example.socialnetwork.auth.security.jwt;
+package com.example.socialnetwork.auth.security;
 
 import java.util.UUID;
 

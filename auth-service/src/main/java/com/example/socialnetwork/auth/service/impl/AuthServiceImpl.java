@@ -10,16 +10,18 @@ import com.example.socialnetwork.auth.dto.response.RegisterResponse;
 import com.example.socialnetwork.auth.entity.Credential;
 import com.example.socialnetwork.auth.entity.RefreshToken;
 import com.example.socialnetwork.auth.entity.enums.AccountStatus;
+import com.example.socialnetwork.auth.event.UserRegisteredEvent;
 import com.example.socialnetwork.auth.exception.EmailAlreadyExistsException;
 import com.example.socialnetwork.auth.exception.InvalidCredentialsException;
 import com.example.socialnetwork.auth.exception.InvalidRefreshTokenException;
-import com.example.socialnetwork.auth.security.jwt.JwtPrincipal;
-import com.example.socialnetwork.auth.security.jwt.JwtProperties;
-import com.example.socialnetwork.auth.security.jwt.JwtTokenType;
+import com.example.socialnetwork.auth.security.JwtPrincipal;
+import com.example.socialnetwork.auth.security.JwtProperties;
+import com.example.socialnetwork.auth.security.JwtTokenType;
 import com.example.socialnetwork.auth.mapper.CredentialMapper;
 import com.example.socialnetwork.auth.repository.CredentialRepository;
 import com.example.socialnetwork.auth.service.AuthService;
 import com.example.socialnetwork.auth.service.JwtService;
+import com.example.socialnetwork.auth.service.OutboxService;
 import com.example.socialnetwork.auth.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -28,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +40,7 @@ public class AuthServiceImpl implements AuthService {
   private final CredentialRepository credentialRepository;
   private final JwtService jwtService;
   private final RefreshTokenService refreshTokenService;
+  private final OutboxService outboxService;
   private final CredentialMapper credentialMapper;
   private final PasswordEncoder passwordEncoder;
 
@@ -51,6 +55,15 @@ public class AuthServiceImpl implements AuthService {
     } catch (DataIntegrityViolationException ex) {
       throw new EmailAlreadyExistsException(request.email());
     }
+
+    outboxService.save(
+      "Credential",
+      credential.getPublicId().toString(),
+      new UserRegisteredEvent(
+        UUID.randomUUID(),
+        credential.getPublicId()
+      )
+    );
 
     return credentialMapper.toRegisterResponse(credential);
   }

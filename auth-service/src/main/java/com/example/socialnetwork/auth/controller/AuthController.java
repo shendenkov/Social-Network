@@ -7,7 +7,7 @@ import com.example.socialnetwork.auth.dto.request.RegisterRequest;
 import com.example.socialnetwork.auth.dto.response.LoginResponse;
 import com.example.socialnetwork.auth.dto.response.RefreshResponse;
 import com.example.socialnetwork.auth.dto.response.RegisterResponse;
-import com.example.socialnetwork.auth.security.jwt.JwtPrincipal;
+import com.example.socialnetwork.auth.security.JwtPrincipal;
 import com.example.socialnetwork.auth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
