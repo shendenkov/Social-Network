@@ -1,7 +1,7 @@
 package com.example.socialnetwork.auth.service;
 
-import com.example.socialnetwork.auth.jwt.JwtPrincipal;
-import com.example.socialnetwork.auth.jwt.JwtTokenType;
+import com.example.socialnetwork.auth.security.jwt.JwtPrincipal;
+import com.example.socialnetwork.auth.security.jwt.JwtTokenType;
 
 public interface JwtService {
   String generateAccessToken(JwtPrincipal principal);
