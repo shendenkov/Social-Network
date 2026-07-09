@@ -1,8 +1,10 @@
 package com.example.socialnetwork.auth.controller;
 
 import com.example.socialnetwork.auth.dto.request.LoginRequest;
+import com.example.socialnetwork.auth.dto.request.RefreshRequest;
 import com.example.socialnetwork.auth.dto.request.RegisterRequest;
 import com.example.socialnetwork.auth.dto.response.LoginResponse;
+import com.example.socialnetwork.auth.dto.response.RefreshResponse;
 import com.example.socialnetwork.auth.dto.response.RegisterResponse;
 import com.example.socialnetwork.auth.service.AuthService;
 import jakarta.validation.Valid;
@@ -26,5 +28,10 @@ public class AuthController {
   @ResponseStatus(HttpStatus.OK)
   public LoginResponse login(@Valid @RequestBody LoginRequest request) {
     return authService.login(request);
+  }
+
+  @PostMapping("/refresh")
+  public RefreshResponse refresh(@Valid @RequestBody RefreshRequest request) {
+    return authService.refresh(request);
   }
 }

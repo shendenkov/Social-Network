@@ -95,7 +95,6 @@ public class JwtServiceImpl implements JwtService {
       .getPayload();
   }
 
-
   private SecretKey signingKey() {
     return Keys.hmacShaKeyFor(
       properties.secret()

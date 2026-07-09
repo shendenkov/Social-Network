@@ -1,6 +1,8 @@
 package com.example.socialnetwork.auth.advice;
 
 import com.example.socialnetwork.auth.exception.EmailAlreadyExistsException;
+import com.example.socialnetwork.auth.exception.InvalidCredentialsException;
+import com.example.socialnetwork.auth.exception.InvalidRefreshTokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +14,22 @@ public class GlobalExceptionHandler {
   public ProblemDetail handleEmailAlreadyExists(EmailAlreadyExistsException ex) {
     ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
     problem.setTitle("Email already exists");
+    problem.setDetail(ex.getMessage());
+    return problem;
+  }
+
+  @ExceptionHandler(InvalidCredentialsException.class)
+  public ProblemDetail handleInvalidCredentials(InvalidCredentialsException ex) {
+    ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+    problem.setTitle("Invalid credentials");
+    problem.setDetail(ex.getMessage());
+    return problem;
+  }
+
+  @ExceptionHandler(InvalidRefreshTokenException.class)
+  public ProblemDetail handleInvalidRefreshToken(InvalidRefreshTokenException ex) {
+    ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+    problem.setTitle("Invalid token");
     problem.setDetail(ex.getMessage());
     return problem;
   }

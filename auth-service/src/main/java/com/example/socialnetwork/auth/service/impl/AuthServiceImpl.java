@@ -1,15 +1,20 @@
 package com.example.socialnetwork.auth.service.impl;
 
 import com.example.socialnetwork.auth.dto.request.LoginRequest;
+import com.example.socialnetwork.auth.dto.request.RefreshRequest;
 import com.example.socialnetwork.auth.dto.request.RegisterRequest;
 import com.example.socialnetwork.auth.dto.response.LoginResponse;
+import com.example.socialnetwork.auth.dto.response.RefreshResponse;
 import com.example.socialnetwork.auth.dto.response.RegisterResponse;
 import com.example.socialnetwork.auth.entity.Credential;
+import com.example.socialnetwork.auth.entity.RefreshToken;
 import com.example.socialnetwork.auth.entity.enums.AccountStatus;
 import com.example.socialnetwork.auth.exception.EmailAlreadyExistsException;
 import com.example.socialnetwork.auth.exception.InvalidCredentialsException;
+import com.example.socialnetwork.auth.exception.InvalidRefreshTokenException;
 import com.example.socialnetwork.auth.jwt.JwtPrincipal;
 import com.example.socialnetwork.auth.jwt.JwtProperties;
+import com.example.socialnetwork.auth.jwt.JwtTokenType;
 import com.example.socialnetwork.auth.mapper.CredentialMapper;
 import com.example.socialnetwork.auth.repository.CredentialRepository;
 import com.example.socialnetwork.auth.service.AuthService;
@@ -20,6 +25,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -72,6 +79,46 @@ public class AuthServiceImpl implements AuthService {
     return new LoginResponse(
       accessToken,
       refreshToken,
+      jwtProperties.accessTokenExpiration()
+    );
+  }
+
+  @Override
+  public RefreshResponse refresh(RefreshRequest request) {
+    String refreshTokenValue = request.refreshToken();
+
+    if (jwtService.extractTokenType(refreshTokenValue) != JwtTokenType.REFRESH) {
+      throw new InvalidRefreshTokenException();
+    }
+
+    RefreshToken refreshToken =
+      refreshTokenService.findByToken(refreshTokenValue)
+        .orElseThrow(InvalidRefreshTokenException::new);
+
+    if (refreshToken.isRevoked()) {
+      throw new InvalidRefreshTokenException();
+    }
+    if (refreshToken.getExpiresAt().isBefore(Instant.now())) {
+      throw new InvalidRefreshTokenException();
+    }
+
+    JwtPrincipal principal = jwtService.extractPrincipal(refreshTokenValue);
+    Credential credential =
+      credentialRepository.findByPublicId(principal.publicId())
+        .orElseThrow(InvalidRefreshTokenException::new);
+
+    String accessToken = jwtService.generateAccessToken(principal);
+    String newRefreshToken = jwtService.generateRefreshToken(principal);
+
+    refreshTokenService.revoke(refreshToken);
+    refreshTokenService.create(
+      credential,
+      newRefreshToken
+    );
+
+    return new RefreshResponse(
+      accessToken,
+      newRefreshToken,
       jwtProperties.accessTokenExpiration()
     );
   }
