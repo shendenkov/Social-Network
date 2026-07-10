@@ -21,3 +21,23 @@ services:
       - "${AUTH_SERVICE_PORT}:8087"
     networks:
       - backend-network
+
+  user-service:
+    container_name: user-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: user-service/Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${USER_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${USER_SERVICE_PORT}:8088"
+    networks:
+      - backend-network

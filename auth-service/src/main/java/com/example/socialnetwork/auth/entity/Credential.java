@@ -11,10 +11,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "credentials")
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Builder
 public class Credential {
   @Id
